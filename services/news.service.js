@@ -30,7 +30,7 @@ function getNewsList(userid) {
     }
     var todayString = year+'-' + month + '-'+dt; 
     var deferred = Q.defer();
-    db.news.find({userid: userid, expiryDate:{$gte:todayString}, date:{$lte:todayString}}).toArray(function (err, data) {
+    db.news.find({expiryDate:{$gte:todayString}, date:{$lte:todayString}}).toArray(function (err, data) {
         if (err) deferred.reject(err.name + ': ' + err.message);
         if (data) {
             deferred.resolve(data);

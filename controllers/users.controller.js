@@ -6,6 +6,7 @@ var userService = require('services/user.service');
 // routes
 router.post('/authenticate', authenticate);
 router.post('/recover', recover);
+router.post('/restore', restore);
 router.post('/register', register);
 router.get('/', getAll);
 router.get('/current', getCurrent);
@@ -17,9 +18,22 @@ module.exports = router;
 function recover(req, res) {
     userService.recover(req.body.address)
         .then(function (message) {
-            if (user) {
+            if (message) {
                 // authentication successful
-                res.send(message);
+                res.json(message);
+            }
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function restore(req, res) {
+    userService.restore(req.body)
+        .then(function (message) {
+            if (message) {
+                // authentication successful
+                res.json(message);
             }
         })
         .catch(function (err) {
